@@ -1,5 +1,5 @@
-APP_NAME = calculator
-LIB_NAME = libcalculator
+APP_NAME = cmdcalc
+LIB_NAME = libcmdcalc
 
 CFLAGS = -Wall -Wextra -Werror
 CPPFLAGS = -I src -MP -MMD
