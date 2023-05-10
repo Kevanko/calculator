@@ -74,12 +74,12 @@ double match(double a, double b, char s)
     }
 }
 
-void process(StackDouble** st_int, StackChar** st_char)
+void process(StackDouble** st_double, StackChar** st_char)
 {
-    double a = pop_double(st_int);
-    double b = pop_double(st_int);
+    double a = pop_double(st_double);
+    double b = pop_double(st_double);
     char symbol = pop_char(st_char);
-    *st_int = push_double(*st_int, match(b, a, symbol));
+    *st_double = push_double(*st_double, match(b, a, symbol));
 }
 
 void print_error(char* str, int id)
