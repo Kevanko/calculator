@@ -82,6 +82,43 @@ void process(StackDouble** st_double, StackChar** st_char)
     *st_double = push_double(*st_double, match(b, a, symbol));
 }
 
+double main_program(char* str)
+{
+    StackDouble* st_double = NULL;
+    StackChar* st_char = NULL;
+    for (size_t i = 0; i < strlen(str); i++) {
+        if (str[i] >= '0' && str[i] <= '9') {
+            char* end;
+            double num = strtod(&str[i], &end);
+            i = end - str - 1;
+            st_double = push_double(st_double, num);
+
+        } else if (str[i] != ' ') {
+            if (st_char == NULL || priority(str[i]) > priority(st_char->value)
+                || str[i] == '(') {
+                st_char = push_char(st_char, str[i]);
+            } else if (str[i] == ')') {
+                while (get_char(st_char) != '(') {
+                    process(&st_double, &st_char);
+                }
+                pop_char(&st_char);
+            } else {
+                while (priority(str[i]) <= priority(get_char(st_char))) {
+                    process(&st_double, &st_char);
+                    if (is_empty_char(st_char))
+                        break;
+                }
+                st_char = push_char(st_char, str[i]);
+            }
+        }
+    }
+    while (!is_empty_char(st_char)) {
+        process(&st_double, &st_char);
+    }
+
+    return pop_double(&st_double);
+}
+
 void print_error(char* str, int id)
 {
     printf("%s\n", str);
