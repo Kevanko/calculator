@@ -26,7 +26,7 @@ int main(int argc, char** argv)
 
             } else if (str[i] != ' ') {
                 if (st_char == NULL
-                    || prioritet(str[i]) > prioritet(st_char->value)
+                    || priority(str[i]) > priority(st_char->value)
                     || str[i] == '(') {
                     st_char = push_char(st_char, str[i]);
                 } else if (str[i] == ')') {
@@ -35,9 +35,9 @@ int main(int argc, char** argv)
                     }
                     pop_char(&st_char);
                 } else {
-                    while (prioritet(str[i]) <= prioritet(get_char(st_char))) {
+                    while (priority(str[i]) <= priority(get_char(st_char))) {
                         process(&st_double, &st_char);
-                        if(is_empty_char(st_char))
+                        if (is_empty_char(st_char))
                             break;
                     }
                     st_char = push_char(st_char, str[i]);

@@ -43,7 +43,7 @@ int check(char* str)
         return (int)strlen(str);
 }
 
-int prioritet(char symbol)
+int priority(char symbol)
 {
     switch (symbol) {
     case '+':
