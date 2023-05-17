@@ -13,8 +13,7 @@ int main(int argc, char** argv)
         if (status) {
             print_error(str, status);
             continue;
-        }
-        else{
+        } else {
             double result = main_program(str);
             printf("%s = %.2f\n", str, result);
         }

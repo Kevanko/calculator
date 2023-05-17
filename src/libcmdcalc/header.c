@@ -74,49 +74,49 @@ double match(double a, double b, char s)
     }
 }
 
-void process(StackDouble** st_double, StackChar** st_char)
+void process(StackDouble** stack_d, StackChar** stack_c)
 {
-    double a = pop_double(st_double);
-    double b = pop_double(st_double);
-    char symbol = pop_char(st_char);
-    *st_double = push_double(*st_double, match(b, a, symbol));
+    double a = pop_double(stack_d);
+    double b = pop_double(stack_d);
+    char symbol = pop_char(stack_c);
+    *stack_d = push_double(*stack_d, match(b, a, symbol));
 }
 
 double main_program(char* str)
 {
-    StackDouble* st_double = NULL;
-    StackChar* st_char = NULL;
+    StackDouble* stack_d = NULL;
+    StackChar* stack_c = NULL;
     for (size_t i = 0; i < strlen(str); i++) {
         if (str[i] >= '0' && str[i] <= '9') {
             char* end;
             double num = strtod(&str[i], &end);
             i = end - str - 1;
-            st_double = push_double(st_double, num);
+            stack_d = push_double(stack_d, num);
 
         } else if (str[i] != ' ') {
-            if (st_char == NULL || priority(str[i]) > priority(st_char->value)
+            if (stack_c == NULL || priority(str[i]) > priority(stack_c->value)
                 || str[i] == '(') {
-                st_char = push_char(st_char, str[i]);
+                stack_c = push_char(stack_c, str[i]);
             } else if (str[i] == ')') {
-                while (get_char(st_char) != '(') {
-                    process(&st_double, &st_char);
+                while (get_char(stack_c) != '(') {
+                    process(&stack_d, &stack_c);
                 }
-                pop_char(&st_char);
+                pop_char(&stack_c);
             } else {
-                while (priority(str[i]) <= priority(get_char(st_char))) {
-                    process(&st_double, &st_char);
-                    if (is_empty_char(st_char))
+                while (priority(str[i]) <= priority(get_char(stack_c))) {
+                    process(&stack_d, &stack_c);
+                    if (is_empty_char(stack_c))
                         break;
                 }
-                st_char = push_char(st_char, str[i]);
+                stack_c = push_char(stack_c, str[i]);
             }
         }
     }
-    while (!is_empty_char(st_char)) {
-        process(&st_double, &st_char);
+    while (!is_empty_char(stack_c)) {
+        process(&stack_d, &stack_c);
     }
 
-    return pop_double(&st_double);
+    return pop_double(&stack_d);
 }
 
 void print_error(char* str, int id)
